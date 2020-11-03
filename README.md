@@ -9,9 +9,8 @@
     Example | python slow_loris.py floridapoly.edu http 100 10
             | python slow_loris.py floridapoly.edu https 150 5
 
-## Liscense
+## License
 
-Liscensed under MIT Liscence.
+Licensed under MIT Licence.
 
-Check [`LISCENSE.md`](./LISCENSE.md) for liscense detials.
-
+Check [`LICENSE`](./LICENSE) for license detials.
