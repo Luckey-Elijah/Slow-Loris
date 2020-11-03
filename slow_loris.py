@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
     while True:
         print(
-            "\033[1;34;40m Sending Keep-Alive Headers with {} sockets".format(len(sockets)))
+            "\033[1;34;40mSending Keep-Alive Headers with {} sockets".format(len(sockets)))
 
         for s in sockets:
             try:
@@ -109,7 +109,7 @@ if __name__ == "__main__":
                 sockets.remove(s)
 
         for _ in range(num_sockets - len(sockets)):
-            print("\033[1;34;40m {}Re-creating Socket...".format("\n"))
+            print("\033[1;34;40m{}Re-creating Socket...".format("\n"))
             try:
                 s = gen_socket(ip, is_https)
                 if s:
