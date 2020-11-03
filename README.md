@@ -1,4 +1,4 @@
-# Slow Loris DoS with Python
+# 🐒 Slow Loris DoS with Python
 
 > **Do not use this program for malicious use. This was created for experimental and research use.**
 
