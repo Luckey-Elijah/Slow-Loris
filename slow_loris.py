@@ -12,11 +12,9 @@ HEADERS = [
     "Connection: keep-alive",
 ]
 
-tests = []
-
 # Used in formating the requests
 BASE_REQUEST = "GET /?{} HTTP/1.1\r\n"
-PRECEDING_REQUEST = '{}\r\n'
+PRECEDING_REQUEST = '{}\r\n' # CRLF is '\r\n'
 
 # Exit codes
 SUCCESS = 0
@@ -73,7 +71,7 @@ if __name__ == "__main__":
         sockets.append(s)
 
     while True:
-        # Prints
+        # Prompt for user and sockets
         print("Sending Keep-Alive Headers with {} sockets".format(len(sockets)))
 
         for s in sockets:
