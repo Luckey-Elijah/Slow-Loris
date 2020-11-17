@@ -24,7 +24,7 @@ FAILURE = 1
 
 def gen_socket(ip, https=True) -> socket:
     # This is the deafult web HTTPS port
-    int: port = 443
+    port = 443
     if https:
         # This is the deafult web HTTP port
         port = 80
@@ -49,14 +49,6 @@ def check_and_assign_args(arg_ip, arg_port_type, arg_num_sockets, arg_time) -> (
 
     # TODO: Work on assertions
 
-    # if(type(int(arg_num_sockets)) is not (int)):
-    #     print("Number of sockets:", arg_num_sockets, "is not an int")
-    #     exit(FAILURE)
-
-    # if(type((arg_time)) is not (int)):
-    #     print("Time:", arg_time, "is not an int")
-    #     exit(FAILURE)
-
     ip = str(arg_ip)
     is_https = False
 
@@ -72,6 +64,7 @@ def check_and_assign_args(arg_ip, arg_port_type, arg_num_sockets, arg_time) -> (
 if __name__ == "__main__":
 
     if len(sys.argv) < 5:
+
         # Invalid use prints usage
         print(
             "Usage\t| python {} <website/ip> <http or https> <# of sockets> <timeout>\n".format(sys.argv[0]))
